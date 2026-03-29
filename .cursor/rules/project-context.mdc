@@ -1,0 +1,11 @@
+---
+description: FootballPulse project conventions and memory usage
+alwaysApply: true
+---
+# FootballPulse Conventions
+
+- This repo uses `project.yml` with XcodeGen as the project source of truth.
+- Keep the iPhone app modular: `App`, `Core`, `Features`, and `Shared` folders under `FootballPulse/Sources`.
+- Never commit `Config/Secrets.xcconfig` or other real API credentials.
+- Prefer keeping the app runnable in mock mode when external config is missing.
+- Read and update `.cursor/memory/project-memory.md` when major architectural decisions change.

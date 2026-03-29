@@ -35,7 +35,7 @@ playground.xcworkspace
 #
 # We recommend against adding the Pods directory to your .gitignore. However
 # you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+# https://guides.cocoapods.org/using/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
 # Pods/
 #
@@ -60,3 +60,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Local configuration and editor noise
+Config/Secrets.xcconfig
+.DS_Store
+backend/.venv/
+backend/*.db

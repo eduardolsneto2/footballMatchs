@@ -1,0 +1,56 @@
+name: FootballPulse
+options:
+  minimumXcodeGenVersion: 2.45.3
+configs:
+  Debug: debug
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    IPHONEOS_DEPLOYMENT_TARGET: 18.0
+    TARGETED_DEVICE_FAMILY: 1
+    SUPPORTS_MACCATALYST: NO
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+targets:
+  FootballPulse:
+    type: application
+    platform: iOS
+    deploymentTarget: '18.0'
+    configFiles:
+      Debug: Config/Debug.xcconfig
+      Release: Config/Release.xcconfig
+    info:
+      path: FootballPulse/Info.plist
+    sources:
+      - path: FootballPulse/Sources
+    resources:
+      - path: FootballPulse/Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.footballpulse
+        PRODUCT_NAME: FootballPulse
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 1.0
+  FootballPulseTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: '18.0'
+    sources:
+      - path: Tests/FootballPulseTests
+    dependencies:
+      - target: FootballPulse
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.footballpulse.tests
+        CODE_SIGN_STYLE: Automatic
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  FootballPulse:
+    build:
+      targets:
+        FootballPulse: all
+    test:
+      targets:
+        - FootballPulseTests
