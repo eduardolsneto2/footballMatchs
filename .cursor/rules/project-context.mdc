@@ -8,4 +8,5 @@ alwaysApply: true
 - Keep the iPhone app modular: `App`, `Core`, `Features`, and `Shared` folders under `FootballPulse/Sources`.
 - Never commit `Config/Secrets.xcconfig` or other real API credentials.
 - Prefer keeping the app runnable in mock mode when external config is missing.
+- Do not strip `FootballPulse/Info.plist`: keep localhost ATS exceptions, `UILaunchScreen`, and scene/orientation keys. `BackendBaseURL` is injected via `INFOPLIST_KEY_BackendBaseURL` in `project.yml` from `$(BACKEND_BASE_URL)` in xcconfig; after adding Swift files run `xcodegen generate`.
 - Read and update `.cursor/memory/project-memory.md` when major architectural decisions change.

@@ -12,6 +12,16 @@ from app.config import get_settings
 settings = get_settings()
 
 
+class FBrefFetchError(Exception):
+    """Raised when FBref cannot be fetched (HTTP error, block page, or network failure)."""
+
+    def __init__(self, url: str, status_code: Optional[int] = None, message: Optional[str] = None) -> None:
+        self.url = url
+        self.status_code = status_code
+        self.message = message or (f"HTTP {status_code}" if status_code else "request failed")
+        super().__init__(f"{self.message} for {url}")
+
+
 @dataclass(frozen=True)
 class ScrapedFixture:
     competition: str
@@ -26,8 +36,15 @@ class ScrapedFixture:
 
 class FBrefScraper:
     def __init__(self) -> None:
+        # Browser-like headers; FBref/Cloudflare often returns 403 to obvious bot User-Agents.
         self.headers = {
-            "User-Agent": "FootballPulseScraper/0.1 (+https://github.com/eduardoleite/footballMatchs)"
+            "User-Agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Referer": "https://fbref.com/",
         }
 
     async def scrape(self, config_json: str) -> List[ScrapedFixture]:
@@ -67,11 +84,26 @@ class FBrefScraper:
         fixtures: List[ScrapedFixture] = []
 
         for url in urls:
-            response = await client.get(url)
-            response.raise_for_status()
+            try:
+                response = await client.get(url)
+            except httpx.RequestError as exc:
+                raise FBrefFetchError(url, status_code=None, message=str(exc)) from exc
+
+            if response.status_code >= 400:
+                raise FBrefFetchError(url, status_code=response.status_code)
+
+            body = response.text
+            head = body[:20000].lower()
+            if "just a moment" in head and ("cf-ray" in head or "cloudflare" in head):
+                raise FBrefFetchError(
+                    url,
+                    status_code=response.status_code,
+                    message="Cloudflare challenge page (automated access blocked)",
+                )
+
             fixtures.extend(
                 self.parse_schedule_html(
-                    response.text,
+                    body,
                     source_url=url,
                     override_competition_name=override_competition_name,
                 )

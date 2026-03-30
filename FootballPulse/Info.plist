@@ -49,5 +49,7 @@
 	</dict>
 	<key>BackendBaseURL</key>
 	<string>$(BACKEND_BASE_URL)</string>
+	<key>UIDesignRequiresCompatibility</key>
+	<true/>
 </dict>
 </plist>

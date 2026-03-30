@@ -13,6 +13,7 @@
 		1577C3514ABFA8937C92E276 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF80ACBE8EC120DC6587414 /* NotificationManager.swift */; };
 		16BA0C1576962602124527DE /* ReminderSettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C29EB20AA1BBE0545F62FD1 /* ReminderSettingsStoreTests.swift */; };
 		3CF7E76210CDE58BBD9E4642 /* FootballModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A377FF6B807D128BF5DD1A9D /* FootballModels.swift */; };
+		3D3F67F0E855DE48CD1385B7 /* StableIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB25D5B0E644B9C55F1E7BDF /* StableIdentifierTests.swift */; };
 		5BE1E0B18998533EC28835EF /* FootballPulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691E98241CFCC4DC11BC4B65 /* FootballPulseApp.swift */; };
 		725D758A9999D1B8CB23B754 /* LiveAPIFootballService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F087AEE87061A2316E81CF6E /* LiveAPIFootballService.swift */; };
 		8858C20C09BAF1D84700B501 /* APIFootballService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD31C8BAE9B4E4A87CC2267 /* APIFootballService.swift */; };
@@ -24,6 +25,7 @@
 		BABBD20B29805F638BC47249 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BF79F549F56126019685EC /* FavoritesView.swift */; };
 		BB2E86EF20ADE18DD2F0A927 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB781007C268A3842EFCEB /* SettingsView.swift */; };
 		BD2906C933B955ADD1F04561 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776A3D309AC74D4367604623 /* HTTPClient.swift */; };
+		C404EF7715756F8B94556015 /* LegacyFavoriteMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61889838D16CB4797CBAAFC4 /* LegacyFavoriteMigration.swift */; };
 		D2A667B74F74153042E4C73E /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2D7A6A5E06FAE8D41BF193 /* DiscoverViewModel.swift */; };
 		E071F870EAC4FE723936B1DD /* FavoritesStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F149774D0F4219D58632B44A /* FavoritesStoreTests.swift */; };
 		E8E41D016887C2BA2DE68C45 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E9A81E940687E021F9F690 /* DiscoverView.swift */; };
@@ -48,8 +50,9 @@
 		25BF79F549F56126019685EC /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		3C29EB20AA1BBE0545F62FD1 /* ReminderSettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsStoreTests.swift; sourceTree = "<group>"; };
 		4B2D7A6A5E06FAE8D41BF193 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
+		61889838D16CB4797CBAAFC4 /* LegacyFavoriteMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyFavoriteMigration.swift; sourceTree = "<group>"; };
 		691E98241CFCC4DC11BC4B65 /* FootballPulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballPulseApp.swift; sourceTree = "<group>"; };
-		744E69F12DEBA4462BCED4B7 /* FootballPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootballPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		744E69F12DEBA4462BCED4B7 /* FootballPulse.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FootballPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E9A81E940687E021F9F690 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		776A3D309AC74D4367604623 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		7F83F43E2523ED76457FB7DB /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 		D23B9AE041413126C2C67052 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		DA427B2BC1FCA0003D67D4F4 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		DB19F27A89BF9FD656DB7B83 /* FixtureDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureDetailViewModel.swift; sourceTree = "<group>"; };
+		DB25D5B0E644B9C55F1E7BDF /* StableIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StableIdentifierTests.swift; sourceTree = "<group>"; };
 		DFF2F951D0543D8756735AD9 /* MockAPIFootballService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIFootballService.swift; sourceTree = "<group>"; };
 		E69CAF455C2EB23799D4381E /* FootballPulseTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FootballPulseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E837CA5272F925D60E5E9B51 /* FixtureRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureRowView.swift; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 			children = (
 				F149774D0F4219D58632B44A /* FavoritesStoreTests.swift */,
 				3C29EB20AA1BBE0545F62FD1 /* ReminderSettingsStoreTests.swift */,
+				DB25D5B0E644B9C55F1E7BDF /* StableIdentifierTests.swift */,
 			);
 			name = FootballPulseTests;
 			path = Tests/FootballPulseTests;
@@ -116,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				7F83F43E2523ED76457FB7DB /* FavoritesStore.swift */,
+				61889838D16CB4797CBAAFC4 /* LegacyFavoriteMigration.swift */,
 				F4343CCDFB0F3F0879A77CF3 /* ReminderSettingsStore.swift */,
 			);
 			path = Persistence;
@@ -355,6 +361,7 @@
 				3CF7E76210CDE58BBD9E4642 /* FootballModels.swift in Sources */,
 				5BE1E0B18998533EC28835EF /* FootballPulseApp.swift in Sources */,
 				BD2906C933B955ADD1F04561 /* HTTPClient.swift in Sources */,
+				C404EF7715756F8B94556015 /* LegacyFavoriteMigration.swift in Sources */,
 				725D758A9999D1B8CB23B754 /* LiveAPIFootballService.swift in Sources */,
 				92DD9ABA3A814807BCC6808A /* MockAPIFootballService.swift in Sources */,
 				1577C3514ABFA8937C92E276 /* NotificationManager.swift in Sources */,
@@ -370,6 +377,7 @@
 			files = (
 				E071F870EAC4FE723936B1DD /* FavoritesStoreTests.swift in Sources */,
 				16BA0C1576962602124527DE /* ReminderSettingsStoreTests.swift in Sources */,
+				3D3F67F0E855DE48CD1385B7 /* StableIdentifierTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,8 +400,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4PD94YEKS3;
 				INFOPLIST_FILE = FootballPulse/Info.plist;
+				INFOPLIST_KEY_BackendBaseURL = "$(BACKEND_BASE_URL)";
+				INFOPLIST_KEY_UIDesignRequiresCompatibility = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -481,8 +491,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4PD94YEKS3;
 				INFOPLIST_FILE = FootballPulse/Info.plist;
+				INFOPLIST_KEY_BackendBaseURL = "$(BACKEND_BASE_URL)";
+				INFOPLIST_KEY_UIDesignRequiresCompatibility = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

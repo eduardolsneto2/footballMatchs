@@ -4,12 +4,12 @@ from typing import Optional
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from app.catalog import get_source, list_sources, seed_sources
+from app.catalog import get_source, list_sources, seed_sources, upsert_source
 from app.config import get_settings
 from app.database import Base, SessionLocal, engine, get_db
 from app.models import FixtureCache
-from app.schemas import FixtureListResponse, FixtureResponse, SourceResponse
-from app.services.fbref import FBrefScraper
+from app.schemas import FixtureListResponse, FixtureResponse, SourceResponse, SourceUpsertRequest
+from app.services.fbref import FBrefFetchError, FBrefScraper
 
 
 settings = get_settings()
@@ -45,6 +45,20 @@ def sources(
     ]
 
 
+@app.post("/api/v1/sources", response_model=SourceResponse)
+def create_or_update_source(
+    payload: SourceUpsertRequest,
+    db: Session = Depends(get_db),
+):
+    source = upsert_source(db, payload)
+    return SourceResponse(
+        slug=source.slug,
+        name=source.name,
+        source_type=source.source_type,
+        provider=source.provider,
+    )
+
+
 @app.get("/api/v1/fixtures/{source_slug}", response_model=FixtureListResponse)
 async def fixtures(
     source_slug: str,
@@ -69,33 +83,46 @@ async def fixtures(
         cache_is_fresh = newest_fetch >= datetime.utcnow() - timedelta(minutes=settings.cache_ttl_minutes)
 
     if refresh or not cache_is_fresh:
-        scraped = await scraper.scrape(source.config_json)
-        fetched_at = datetime.utcnow()
+        try:
+            scraped = await scraper.scrape(source.config_json)
+        except FBrefFetchError as exc:
+            if not cached_rows:
+                raise HTTPException(
+                    status_code=502,
+                    detail=(
+                        f"Could not load fixtures from FBref ({exc.message}). "
+                        "Cloudflare often blocks automated HTTP clients; try again later, "
+                        "use a normal browser session to export HTML, or plug in another data source. "
+                        f"URL: {exc.url}"
+                    ),
+                ) from exc
+        else:
+            fetched_at = datetime.utcnow()
 
-        db.query(FixtureCache).filter(FixtureCache.source_slug == source_slug).delete()
-        for fixture in scraped:
-            db.add(
-                FixtureCache(
-                    source_slug=source_slug,
-                    competition=fixture.competition,
-                    kickoff=fixture.kickoff,
-                    home_team=fixture.home_team,
-                    away_team=fixture.away_team,
-                    status=fixture.status,
-                    score=fixture.score,
-                    venue=fixture.venue,
-                    source_url=fixture.source_url,
-                    fetched_at=fetched_at,
+            db.query(FixtureCache).filter(FixtureCache.source_slug == source_slug).delete()
+            for fixture in scraped:
+                db.add(
+                    FixtureCache(
+                        source_slug=source_slug,
+                        competition=fixture.competition,
+                        kickoff=fixture.kickoff,
+                        home_team=fixture.home_team,
+                        away_team=fixture.away_team,
+                        status=fixture.status,
+                        score=fixture.score,
+                        venue=fixture.venue,
+                        source_url=fixture.source_url,
+                        fetched_at=fetched_at,
+                    )
                 )
-            )
-        db.commit()
+            db.commit()
 
-        cached_rows = (
-            db.query(FixtureCache)
-            .filter(FixtureCache.source_slug == source_slug)
-            .order_by(FixtureCache.kickoff.asc())
-            .all()
-        )
+            cached_rows = (
+                db.query(FixtureCache)
+                .filter(FixtureCache.source_slug == source_slug)
+                .order_by(FixtureCache.kickoff.asc())
+                .all()
+            )
 
     mode = "upcoming"
     upcoming = [row for row in cached_rows if row.kickoff >= datetime.utcnow()]

@@ -8,6 +8,8 @@ struct FootballPulseApp: App {
         WindowGroup {
             RootTabView()
                 .environment(environment)
+                .containerRelativeFrame([.horizontal, .vertical])
+                .background(Color(uiColor: .systemGroupedBackground).ignoresSafeArea())
         }
     }
 }

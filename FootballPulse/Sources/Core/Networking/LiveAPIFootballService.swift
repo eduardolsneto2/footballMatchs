@@ -85,15 +85,7 @@ actor BackendFootballService: APIFootballService {
         path: String,
         queryItems: [URLQueryItem] = []
     ) async throws -> Response {
-        guard var components = URLComponents(url: configuration.baseURL, resolvingAgainstBaseURL: false) else {
-            throw APIError.invalidURL
-        }
-
-        let normalizedPath = "/" + path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        components.path = normalizedPath
-        components.queryItems = queryItems.isEmpty ? nil : queryItems
-
-        guard let url = components.url else {
+        guard let url = configuration.requestURL(path: path, queryItems: queryItems) else {
             throw APIError.invalidURL
         }
 

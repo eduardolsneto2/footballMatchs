@@ -51,6 +51,13 @@ final class FavoritesStore {
             return []
         }
 
-        return favorites.sorted { $0.name < $1.name }
+        let migrated = favorites.map { LegacyFavoriteMigration.migrated($0) }
+        if migrated != favorites {
+            if let data = try? JSONEncoder().encode(migrated) {
+                defaults.set(data, forKey: storageKey)
+            }
+        }
+
+        return migrated.sorted { $0.name < $1.name }
     }
 }

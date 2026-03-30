@@ -33,6 +33,11 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1.0
+        INFOPLIST_PREPROCESS: YES
+        # Merged into the app Info.plist so BackendBaseURL is never left as a literal $(BACKEND_BASE_URL).
+        INFOPLIST_KEY_BackendBaseURL: $(BACKEND_BASE_URL)
+        # Reinforces Liquid Glass compatibility mode (also in FootballPulse/Info.plist) for any system chrome.
+        INFOPLIST_KEY_UIDesignRequiresCompatibility: YES
   FootballPulseTests:
     type: bundle.unit-test
     platform: iOS

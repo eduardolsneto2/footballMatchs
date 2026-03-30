@@ -1,10 +1,12 @@
 import json
+import re
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 from sqlalchemy.orm import Session
 
 from app.models import Source
+from app.schemas import SourceUpsertRequest
 
 
 @dataclass(frozen=True)
@@ -91,4 +93,54 @@ def list_sources(db: Session, query: Optional[str] = None) -> List[Source]:
 
 def get_source(db: Session, slug: str) -> Optional[Source]:
     return db.query(Source).filter(Source.slug == slug).first()
+
+
+def upsert_source(db: Session, payload: SourceUpsertRequest) -> Source:
+    slug = payload.slug or slugify(payload.name)
+    source = get_source(db, slug)
+    config = build_source_config(payload)
+    config_json = json.dumps(config)
+
+    if source is None:
+        source = Source(
+            slug=slug,
+            name=payload.name,
+            source_type=payload.source_type,
+            provider=payload.provider,
+            config_json=config_json,
+        )
+        db.add(source)
+    else:
+        source.name = payload.name
+        source.source_type = payload.source_type
+        source.provider = payload.provider
+        source.config_json = config_json
+
+    db.commit()
+    db.refresh(source)
+    return source
+
+
+def build_source_config(payload: SourceUpsertRequest) -> Dict[str, object]:
+    urls = [str(url) for url in payload.urls]
+
+    if payload.source_type == "competition":
+        return {
+            "mode": "competition_schedule",
+            "competition_name": payload.competition_name or payload.name,
+            "urls": urls,
+        }
+
+    return {
+        "mode": "team_from_competitions",
+        "team_name": payload.team_name or payload.name,
+        "urls": urls,
+    }
+
+
+def slugify(value: str) -> str:
+    normalized = value.strip().casefold()
+    normalized = re.sub(r"[^a-z0-9]+", "-", normalized)
+    normalized = normalized.strip("-")
+    return normalized or "source"
 

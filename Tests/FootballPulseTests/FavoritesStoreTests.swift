@@ -27,4 +27,23 @@ final class FavoritesStoreTests: XCTestCase {
         reloaded.toggle(favorite)
         XCTAssertTrue(reloaded.favorites.isEmpty)
     }
+
+    func testLegacyFavoriteWithoutSourceSlugIsMigratedForKnownBackendSeed() {
+        let defaults = UserDefaults(suiteName: #function)!
+        defaults.removePersistentDomain(forName: #function)
+        let storageKey = "footballpulse.favorites.migration.test"
+
+        let legacyJSON = """
+        [{"remoteID":999999,"kind":"team","name":"CRB","subtitle":"FBREF","logoURL":null,"season":null}]
+        """.data(using: .utf8)!
+        defaults.set(legacyJSON, forKey: storageKey)
+
+        let store = FavoritesStore(userDefaults: defaults, storageKey: storageKey)
+        XCTAssertEqual(store.favorites.count, 1)
+        XCTAssertEqual(store.favorites.first?.sourceSlug, "crb")
+        XCTAssertEqual(store.favorites.first?.id, "team-crb")
+
+        let reloaded = FavoritesStore(userDefaults: defaults, storageKey: storageKey)
+        XCTAssertEqual(reloaded.favorites.first?.sourceSlug, "crb")
+    }
 }

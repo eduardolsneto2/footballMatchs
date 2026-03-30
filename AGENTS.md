@@ -15,3 +15,4 @@
 - Maintain a clean path toward moving API traffic behind a backend.
 - Preserve mock mode so UI work stays unblocked without external credentials.
 - Record major product or architecture changes in `.cursor/memory/project-memory.md`.
+- When changing backend env files, dependencies, or anything that uvicorn reload does not pick up, **remind the user to restart the server** (`Ctrl+C`, then `cd backend && ./run.sh`).

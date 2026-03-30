@@ -6,14 +6,7 @@ struct HTTPClient: Sendable {
         queryItems: [URLQueryItem] = [],
         configuration: BackendConfiguration
     ) async throws -> Response {
-        guard var components = URLComponents(url: configuration.baseURL, resolvingAgainstBaseURL: false) else {
-            throw APIError.invalidURL
-        }
-
-        components.path = "/" + path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        components.queryItems = queryItems.isEmpty ? nil : queryItems
-
-        guard let url = components.url else {
+        guard let url = configuration.requestURL(path: path, queryItems: queryItems) else {
             throw APIError.invalidURL
         }
 

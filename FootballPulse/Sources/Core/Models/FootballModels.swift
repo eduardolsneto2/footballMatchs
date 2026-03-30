@@ -195,10 +195,12 @@ enum SearchScope: String, CaseIterable, Identifiable {
 }
 
 func stableIdentifier(for rawValue: String) -> Int {
-    var hash: UInt64 = 1469598103934665603
+    var hash: UInt64 = 1_469_508_103_934_665_603
+    let fnvPrime: UInt64 = 1_099_511_628_211
     for byte in rawValue.utf8 {
         hash ^= UInt64(byte)
-        hash *= 1099511628211
+        // FNV-1a is defined over uint64 with implicit mod 2^64; Swift `*` traps on overflow.
+        hash &*= fnvPrime
     }
     return Int(hash % UInt64(Int.max))
 }

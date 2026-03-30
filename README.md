@@ -29,7 +29,7 @@ FootballPulse is an iPhone-only SwiftUI app scaffold for following football team
 1. Generate the Xcode project:
    `xcodegen generate`
 2. Start the backend:
-   `cd backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt && uvicorn app.main:app --reload`
+   `cd backend && ./run.sh`
 3. Create a local secrets file from the example:
    `cp Config/Secrets.xcconfig.example Config/Secrets.xcconfig`
 4. If needed, override `BACKEND_BASE_URL` in `Config/Secrets.xcconfig`
@@ -42,20 +42,21 @@ If `Config/Secrets.xcconfig` is missing or invalid, the app runs in mock mode so
 The repo now includes a backend service in `backend/` for scraping fixtures directly, starting with FBref as the main provider.
 
 1. `cd backend`
-2. `python3 -m venv .venv`
-3. `source .venv/bin/activate`
-4. `pip install -r requirements-dev.txt`
-5. `uvicorn app.main:app --reload`
+2. `./run.sh`
+
+(Or follow the manual steps in `backend/README.md`.)
 
 The first backend version exposes:
 
 - `GET /health`
 - `GET /api/v1/sources`
+- `POST /api/v1/sources`
 - `GET /api/v1/fixtures/{source_slug}`
 
 ## Production notes
 
 - For simulator use, `http://127.0.0.1:8000` works as the default backend URL. For a physical iPhone, point `BACKEND_BASE_URL` at your Mac's local network IP instead.
-- The current backend only exposes seeded sources, so search is limited to the catalog you define there.
+- The backend can now register arbitrary team and competition sources via `POST /api/v1/sources`, and the app will discover those sources automatically on the next search.
+- Fully automatic global lookup by plain team or tournament name will need a broader provider catalog or a browser-based worker, because FBref search endpoints are protected behind Cloudflare.
 - The notification layer is structured so v1 can use local reminders, while future remote push can be added behind a server.
 - App icons, privacy text, bundle identifier, screenshots, and App Store metadata still need your final brand values.
